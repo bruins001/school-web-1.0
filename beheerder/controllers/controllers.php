@@ -34,12 +34,15 @@ class GamesController {
     }
 
     function save($game, $price, $numberOfPlayers, $type, $age, $length, $photo) {
-        $uploadDir = getcwd() . "\..\assets\img\\" . $photo["name"];
-        $fileTmpName  = $photo['tmp_name'];
-        move_uploaded_file($fileTmpName, $uploadDir);
 
-        $this->database->insert("files", ["filePath", "deleted"], ["'" . $uploadDir . "'", 0]);
-        $fileId = $this->database->select("files", ["id"], ["filePath" => "'" . $uploadDir . "'"]);
+        $filename = $photo["name"];
+        $relativePath = "\..\assets\img\\" . $filename;
+        $uploadPath = getcwd() . $relativePath;
+        $fileTmpName  = $photo['tmp_name'];
+        move_uploaded_file($fileTmpName, $uploadPath);
+
+        $this->database->insert("files", ["filePath", "deleted"], ["'" . $filename . "'", 0]);
+        $fileId = $this->database->select("files", ["id"], ["filePath" => "'" . $filename . "'"]);
 
         if ($fileId != null) {
             $fileId = $fileId->fetch_assoc()["id"];

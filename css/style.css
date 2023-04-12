@@ -1,15 +1,10 @@
-html,
-body {
-  height: 100%;
-}
-
 body {
   box-sizing: border-box;
   margin: 0;
 }
 
 header {
-  min-height: 10%;
+  min-height: 5rem;
   padding-left: 1rem;
   padding-right: 1rem;
   background-color: #5e99ff;
@@ -29,13 +24,70 @@ p {
 }
 
 main {
-  min-height: 80%;
-  position: absolute;
+  min-height: 30rem;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 6rem;
+  margin: 3rem;
+  flex: 1 1 10rem;
+  flex-wrap: wrap;
 }
 
-#filters {
-  position: relative;
+a {
+  text-decoration: none;
+  color: black;
+}
+
+.game {
+  max-width: 15rem;
+  height: min-content;
+}
+
+/* .game h3 {
+  display: inline-bl/ock;
+} */
+
+.game-img {
+  max-width: 100%;
+}
+
+#game-list {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  flex-wrap: wrap;
   background-color: #5392ff;
-  max-width: clamp(300px, 30%, 600px);
-  min-height: 100%;
+  width: clamp(10rem, 50vw, 60rem);
+}
+
+#filter-list {
+  padding-left: 2rem;
+  padding-right: 2rem;
+  background-color: #5392ff;
+  max-width: clamp(10rem, 30vw, 60rem);
+  min-height: 80%;
+}
+
+#photo {
+  max-height: 10rem;
+  width: 100%;
+  background-color: black;
+  overflow: hidden;
+}
+
+#photo img {
+  width: 100%;
+  transform: translateY(-50%);
+}
+
+#gameDetails h3 {
+  display: inline-block;
+  margin-left: 1rem;
+}
+
+@media screen and (max-width: 850px) {
+  #photo img {
+    transform: translateY(0%);
+  }
 }

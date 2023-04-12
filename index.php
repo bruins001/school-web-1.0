@@ -1,3 +1,9 @@
+<?php
+require "beheerder/models/models.php";
+
+$database = new Database("root", "");
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,13 +18,20 @@
         <h1>Spellen enzo.</h1>
     </header>
     <main>
-        <div id="filters">
+        <div id="filter-list">
             <h2>Filters</h2>
             <input type="checkbox" id="quickGames">
             <label for="">Snelle spellen</label>
         </div>
-        <div id="games">
+        <div id="game-list">
+            <?php
+                $games = $database->select("games", ["id", "gameName", "price", "fileId"], []);
+                for ($row = $games->fetch_assoc(); $row != null; $row = $games->fetch_assoc()) {    
+                    $fileName = $database->select("files", ["filePath"], ["id" => $row["fileId"]])->fetch_assoc()["filePath"];
 
+                    echo '<a href="bekijk-spel.php?gameId=\'' . $row["id"] . '\'"><div class="game"><img class="game-img" src="assets/img/' . $fileName . '" alt="' . $row["gameName"] . '"><h3>' . $row["gameName"] . '</h3><h3>€ ' . $row["price"] . '</h3></div></a>';
+                }
+            ?>
         </div>
     </main>
 </body>
