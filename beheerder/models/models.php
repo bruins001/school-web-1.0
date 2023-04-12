@@ -65,5 +65,41 @@ class Database {
         // returns the result if successful or null if unsuccessful.
         return $return_value;
     }
+
+    function update(string $table, $id, array $columns) {
+        $return_value = false;
+
+        // Checks table for HTML characters and creates sql variable.
+        $table = htmlspecialchars($table);
+        $sql = "UPDATE " . $table . " SET " . implode(", ", $columns) . " WHERE id = " . $id . ";";
+        
+        try {
+            // Try's to run the query.
+            if ($this->conn->query($sql)) {
+                $return_value = true;
+            }
+
+        } catch (mysqli_sql_exception) {}
+
+        // Return's true or false so the developer knows if the action was successful.
+        return $return_value;
+    }
+
+    function delete(string $table, $id) {
+        $return_value = false;
+
+        // Checks table for HTML characters and creates sql variable.
+        $sql = "DELETE FROM ". $table ." WHERE id = ". $id .";";
+
+        try {
+            // Try's to run the query.
+            if ($this->conn->query($sql)) {
+                $return_value = true;
+            }
+        } catch (mysqli_sql_exception) {}
+
+        // Return's true or false so the developer knows if the action was successful.
+        return $return_value;
+    }
 }
 ?>

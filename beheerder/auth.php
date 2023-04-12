@@ -14,6 +14,6 @@
     }
 
     // Creates controller and starts authentication.
-    $loginController = new LoginController();
+    $loginController = new LoginController("root", "");
     $loginController->auth($_POST["username"], $_POST["password"]);
 ?>

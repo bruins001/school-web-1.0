@@ -33,7 +33,7 @@ $database = new Database("root", "");
                 for ($row = $games->fetch_assoc(); $row != null; $row = $games->fetch_assoc()) {    
                     $fileName = $database->select("files", ["filePath"], ["id" => $row["fileId"]])->fetch_assoc()["filePath"];
 
-                    echo '<a href="bekijk-spel.php?gameId=\'' . $row["id"] . '\'"><div class="game"><img class="game-img" src="assets/img/' . $fileName . '" alt="' . $row["gameName"] . '"><h3>' . $row["gameName"] . '</h3><h3>€ ' . $row["price"] . '</h3></div></a>';
+                    echo '<a href="bekijk-spel.php?gameId=' . $row["id"] . '"><div class="game"><img class="game-img" src="assets/img/' . $fileName . '" alt="' . $row["gameName"] . '"><h3>' . $row["gameName"] . '</h3><h3>€ ' . $row["price"] . '</h3></div></a>';
                 }
             ?>
         </div>

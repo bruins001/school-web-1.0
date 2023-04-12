@@ -1,16 +1,27 @@
 <?php
 class LoginController {
+    private $database;
 
-    function __construct() {
+    function __construct($dbUsername, $dbPassword) {
+        require("models/models.php");
+
         // Checks if session is already started and starts it if necessary.
         if (session_status() == 1) {
             session_start();
         }
+
+        // Creates a database class based in the Model.
+        $this->database = new Database($dbUsername, $dbPassword);
     }
 
     function auth(string $username, string $password) {
+        // Gets username and password from the database.
+        $dbUsernameAndPassword = $this->database->select("admins", ["username", "password"], ["id" => 1])->fetch_assoc();
+        $dbAdminUsername = $dbUsernameAndPassword["username"];
+        $dbAdminPassword = $dbUsernameAndPassword["password"];
+
         // Checks if username and password is valid and responds accordingly.
-        if ($username == "admin" && $password == "admin") {
+        if ($username == $dbAdminUsername && $password == $dbAdminPassword) {
             $_SESSION["username"] = $username;
             $_SESSION["password"] = $password;
             header("Location: dashboard.php");
@@ -57,6 +68,22 @@ class GamesController {
             $this->database->insert("games", ["gameName", "gameLength", "ageRating", "type", "numberOfPlayers", "fileId", "price", "deleted"], ["'" . $game . "'", $length, $age, "'" . $type . "'", $numberOfPlayers, $fileId, "'" . $price . "'", 0]);
         }
     }
-}
 
+    function edit($id, $game, $price, $numberOfPlayers, $type, $age, $length) {
+        // Returns response database update.
+        return $this->database->update("games", $id, ["gameName" => "gameName = '" . $game . "'", "gameLength" => "gameLength =" . $length, "ageRating" => "ageRating =" . $age, "type" => "type = '" . $type . "'", "numberOfPlayers" => "numberOfPlayers =" . $numberOfPlayers, "price" => "price = '" . $price . "'"]);
+    }
+
+    function delete($id) {
+        // Gets response database update.
+        $dbResult = $this->database->delete("games", $id);
+
+        // Looks if operation was successful.
+        if ($dbResult) {
+            header("Location: dashboard.php");
+        } else {
+            die("Het verwijderen van dit spel is niet gelukt.");
+        }
+    }
+}
 ?>
