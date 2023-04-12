@@ -1,0 +1,41 @@
+html,
+body {
+  height: 100%;
+}
+
+body {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+header {
+  min-height: 10%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  background-color: #5e99ff;
+
+  display: flex;
+  align-items: center;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+}
+
+main {
+  min-height: 80%;
+  position: absolute;
+}
+
+#filters {
+  position: relative;
+  background-color: #5392ff;
+  max-width: clamp(300px, 30%, 600px);
+  min-height: 100%;
+}
