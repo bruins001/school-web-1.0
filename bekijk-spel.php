@@ -1,6 +1,7 @@
 <?php
 require "beheerder/models/models.php";
 
+// Creates database instance and does a login.
 $database = new Database("root", "");
 ?>
 
@@ -20,12 +21,15 @@ $database = new Database("root", "");
     <main>
         <div id="game-list">
             <?php 
+            // Gets most properties from the database table games.
             $dbResult = $database->select("games", ["gameName", "price", "numberOfPlayers", "type", "ageRating", "gameLength", "fileId"], ["id" => $_GET["gameId"]]);
 
-            for ($row = $dbResult->fetch_assoc(); $row != null; $row = $dbResult->fetch_assoc()) {
-                $fileName = $database->select("files", ["filePath"], ["id" => $row["fileId"]])->fetch_assoc()["filePath"];
-                echo '<div id="photo"><img src="assets/img/' . $fileName . '" alt="' . $row["gameName"] . '"></div><a href="index.php"><img src="assets/img/back.png" alt="back" style="max-width: 2rem; max-height: 2rem; justify-self: start"><a><div id="gameDetails"><h3>Spelnaam: '.$row["gameName"].'</h3><h3>Prijs: '.$row["price"].'</h3><br><h3> Aanbevolen leeftijd: '.$row["ageRating"].'</h3><h3>Aanbevolen spelers: '.$row["numberOfPlayers"].'</h3><br><h3>Soort spel: '.$row["type"].'</h3><h3>Lengte in minuten: '.$row["gameLength"].'</h3></div>';
-            }
+            // Gets row from the database object.
+            $row = $dbResult->fetch_assoc();
+
+            // Creates the html code.
+            $fileName = $database->select("files", ["filePath"], ["id" => $row["fileId"]])->fetch_assoc()["filePath"];
+            echo '<div id="photo"><img src="assets/img/' . $fileName . '" alt="' . $row["gameName"] . '"></div><a href="index.php"><img src="assets/img/back.png" alt="back" style="max-width: 2rem; max-height: 2rem; justify-self: start"><a><div id="gameDetails"><h3>Spelnaam: '.$row["gameName"].'</h3><h3>Prijs: '.$row["price"].'</h3><br><h3> Aanbevolen leeftijd: '.$row["ageRating"].'</h3><h3>Aanbevolen spelers: '.$row["numberOfPlayers"].'</h3><br><h3>Soort spel: '.$row["type"].'</h3><h3>Lengte in minuten: '.$row["gameLength"].'</h3></div>';
             ?>
         </div>
     </main>

@@ -2,15 +2,15 @@
 class LoginController {
 
     function __construct() {
-        // require("../objects/user.php");
+        // Checks if session is already started and starts it if necessary.
         if (session_status() == 1) {
             session_start();
         }
     }
 
     function auth(string $username, string $password) {
+        // Checks if username and password is valid and responds accordingly.
         if ($username == "admin" && $password == "admin") {
-            // $_SESSION["user"] = new User($username, $password);
             $_SESSION["username"] = $username;
             $_SESSION["password"] = $password;
             header("Location: dashboard.php");
@@ -26,27 +26,34 @@ class GamesController {
     function __construct($dbUsername, $dbPassword) {
         require("models/models.php");
 
+        // Checks if session is already started and starts it if necessary.
         if (session_status() == 1) {
             session_start();
         }
 
+        // Creates a database class based in the Model.
         $this->database = new Database($dbUsername, $dbPassword);
     }
 
     function save($game, $price, $numberOfPlayers, $type, $age, $length, $photo) {
-
+        // Gets all the necessary file property's.
         $filename = $photo["name"];
         $relativePath = "\..\assets\img\\" . $filename;
         $uploadPath = getcwd() . $relativePath;
         $fileTmpName  = $photo['tmp_name'];
+
+        // Saves the file
         move_uploaded_file($fileTmpName, $uploadPath);
 
-        $this->database->insert("files", ["filePath", "deleted"], ["'" . $filename . "'", 0]);
-        $fileId = $this->database->select("files", ["id"], ["filePath" => "'" . $filename . "'"]);
+        $this->database->insert("files", ["filePath", "deleted"], ["'" . $filename . "'", 0]); // Adds the file location to the database.
+        $fileId = $this->database->select("files", ["id"], ["filePath" => "'" . $filename . "'"]); // Gets the fileId from the row just added.
 
+        // Checks if the fileId exists.
         if ($fileId != null) {
+            // Gets the fileId from the database object returned.
             $fileId = $fileId->fetch_assoc()["id"];
 
+            // Adds the board game to the database.
             $this->database->insert("games", ["gameName", "gameLength", "ageRating", "type", "numberOfPlayers", "fileId", "price", "deleted"], ["'" . $game . "'", $length, $age, "'" . $type . "'", $numberOfPlayers, $fileId, "'" . $price . "'", 0]);
         }
     }

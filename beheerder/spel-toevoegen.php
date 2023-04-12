@@ -1,6 +1,10 @@
 <?php
+// Checks if method is POST.
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Gets controller.
     require("controllers/controllers.php");
+
+    // Creates gameController and invokes the save function.
     $gameController = new GamesController("root", "");
     $gameController->save($_POST["game"], $_POST["price"], $_POST["numberOfPlayers"], $_POST["type"], $_POST["age"], $_POST["length"], $_FILES["photo"]);
 }

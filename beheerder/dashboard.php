@@ -1,6 +1,7 @@
 <?php
 session_start();
 
+// Checks if user is logged in and responds accordingly.
 if (!isset($_SESSION["username"])) {
     header("Location: index.php");
 }

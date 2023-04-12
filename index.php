@@ -1,6 +1,7 @@
 <?php
 require "beheerder/models/models.php";
 
+// Creates database instance and does a login.
 $database = new Database("root", "");
 ?>
 
@@ -25,7 +26,10 @@ $database = new Database("root", "");
         </div>
         <div id="game-list">
             <?php
+                // Gets some properties from game table.
                 $games = $database->select("games", ["id", "gameName", "price", "fileId"], []);
+
+                // Creates html code per board game.
                 for ($row = $games->fetch_assoc(); $row != null; $row = $games->fetch_assoc()) {    
                     $fileName = $database->select("files", ["filePath"], ["id" => $row["fileId"]])->fetch_assoc()["filePath"];
 
