@@ -5,7 +5,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     require("controllers/controllers.php");
 
     // Creates gameController and invokes the edit function.
-    $gameController = new GamesController("root", "");
+    $gameController = new GamesController();
     $gameController->edit($_POST["id"], $_POST["game"], $_POST["price"], $_POST["numberOfPlayers"], $_POST["type"], $_POST["age"], $_POST["length"]);
 }
 ?>

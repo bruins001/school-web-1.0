@@ -2,7 +2,7 @@
 require "models/models.php";
 
 // Creates database instance and does a login.
-$database = new Database("root", "");
+$database = new Database();
 
 session_start();
 

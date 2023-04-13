@@ -2,9 +2,15 @@
 class Database {
     private $conn;
 
-    function __construct($username, $password) {
+    function __construct() {
+        // Change your database configuration.
+        $host = "localhost";
+        $database = "web_1_0_227224";
+        $username = "root";
+        $password = "";
+
         // Starts connection.
-        $this->conn = new mysqli("localhost", $username, $password, "web_1_0_227224");
+        $this->conn = new mysqli($host, $username, $password, $database);
 
         // Checks if connection was successful created.
         if ($this->conn->connect_error) {
@@ -18,7 +24,7 @@ class Database {
         // Checks table for HTML characters and creates sql variable.
         $table = htmlspecialchars($table);
         $sql = "INSERT INTO " . $table . " (" . implode(", ", $columns) . ") " . "VALUES (" . implode(", ", $values) . ");";
-
+        
         try {
             // Try's to run the query.
             if ($this->conn->query($sql)) {

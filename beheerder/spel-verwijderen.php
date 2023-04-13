@@ -3,6 +3,6 @@
 require("controllers/controllers.php");
 
 // Creates controller and invokes delete function.
-$gameController = new GamesController("root", "");
+$gameController = new GamesController();
 $gameController->delete($_GET["gameId"]);
 ?>

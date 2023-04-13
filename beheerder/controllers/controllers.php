@@ -2,7 +2,7 @@
 class LoginController {
     private $database;
 
-    function __construct($dbUsername, $dbPassword) {
+    function __construct() {
         require("models/models.php");
 
         // Checks if session is already started and starts it if necessary.
@@ -11,7 +11,7 @@ class LoginController {
         }
 
         // Creates a database class based in the Model.
-        $this->database = new Database($dbUsername, $dbPassword);
+        $this->database = new Database();
     }
 
     function auth(string $username, string $password) {
@@ -34,7 +34,7 @@ class LoginController {
 class GamesController {
     private $database;
 
-    function __construct($dbUsername, $dbPassword) {
+    function __construct() {
         require("models/models.php");
 
         // Checks if session is already started and starts it if necessary.
@@ -43,7 +43,7 @@ class GamesController {
         }
 
         // Creates a database class based in the Model.
-        $this->database = new Database($dbUsername, $dbPassword);
+        $this->database = new Database();
     }
 
     function save($game, $price, $numberOfPlayers, $type, $age, $length, $photo) {
@@ -83,6 +83,32 @@ class GamesController {
             header("Location: dashboard.php");
         } else {
             die("Het verwijderen van dit spel is niet gelukt.");
+        }
+    }
+}
+
+class ReviewController {
+    private $database;
+
+    function __construct() {
+        require("beheerder/models/models.php");
+
+        // Checks if session is already started and starts it if necessary.
+        if (session_status() == 1) {
+            session_start();
+        }
+
+        // Creates a database class based in the Model.
+        $this->database = new Database();
+    }
+
+    function save($gameId, $name, $text, $grade) {
+        $dbResult = $this->database->insert("reviews", ["gameId", "name", "text", "grade", "approved", "deleted"], [$gameId, "'" . $name . "'", "'" . $text . "'", $grade, 0, 0]);
+
+        if ($dbResult) {
+            header("Location: index.php");
+        } else {
+            die("Kon beoordeling niet uploaden!");
         }
     }
 }
